@@ -1,0 +1,64 @@
+{
+  "details": [
+    {
+      "name": [
+        "smit"
+      ],
+      "email": [
+        "smit@gmail.com"
+      ],
+      "phone": [
+        "4778784545"
+      ],
+      "country": [
+        "india"
+      ],
+      "id": 1
+    },
+    {
+      "name": [
+        "raj"
+      ],
+      "email": [
+        "raj@gmail.com"
+      ],
+      "phone": [
+        "879546266"
+      ],
+      "country": [
+        "india"
+      ],
+      "id": 2
+    },
+    {
+      "name": [
+        "het"
+      ],
+      "email": [
+        "het@gmail.com"
+      ],
+      "phone": [
+        "78989565"
+      ],
+      "country": [
+        "india"
+      ],
+      "id": 3
+    },
+    {
+      "name": [
+        "abc1"
+      ],
+      "email": [
+        "smit@gmail.com"
+      ],
+      "phone": [
+        "78798554878"
+      ],
+      "country": [
+        "india"
+      ],
+      "id": 4
+    }
+  ]
+}

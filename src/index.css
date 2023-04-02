@@ -11,3 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.trashcan{
+  margin-left: 30px;
+  color: red;
+  pointer-events: visible;
+  cursor: pointer;
+}
+.fapenicon{
+  cursor: pointer;
+}
+.errorshow{
+  color: red;
+}
