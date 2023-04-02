@@ -5,11 +5,12 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import {GetApiAction, PostApiAction} from "../Redux/Action/Action";
 import { useDispatch, useSelector } from "react-redux";
-
+import { toast } from 'react-toastify';
 
 const Add = ({ handleShow }) => {
     const dispatch =useDispatch();
     const isResponce = useSelector((state) => state.reducer.isResponce);
+    const [validated, setValidated] = useState(false);
   const [nameError, setNameError] = useState();
   const [emailError, setEmailError] = useState();
   const [phoneError, SetPhoneError] = useState();
@@ -39,20 +40,22 @@ const Add = ({ handleShow }) => {
  }
   const SubmitForm = (e) => {
     e.preventDefault();
-    if(AllData.name===''|| AllData.email===''||AllData.phone===''|| AllData.country===''){
-      setNameError("Name is Reqier");
-      setEmailError("Email is reqier");
-      SetPhoneError("Phone Number is Reqier");
-      setcountryError('County is reqier');
-      console.log('1')
-    }else{
-      console.log('2');
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      setNameError("Please provide a valid Name");
+      setEmailError("Please provide a valid Email");
+      SetPhoneError("Please provide a valid Phone Number");
+      setcountryError('Please provide a valid County Name');
+    }
+    else{
      dispatch(PostApiAction(finalData));
      dispatch(GetApiAction());
+     toast.success("your data added successfully!");
      setShow(false);
      setAllData('');setNameError('');setEmailError('');SetPhoneError('');setcountryError('');
     }
-    
   };
   return (
     <>
@@ -65,32 +68,34 @@ const Add = ({ handleShow }) => {
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={SubmitForm}>
+          <Form noValidate validated={validated} onSubmit={SubmitForm}>
             <Row>
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label>Name</Form.Label>
                   <Form.Control
+                    required
                     type="text"
                     name="name"
                     value={AllData.name}
                     onChange={(e) => HandelChange(e)}
                     placeholder="Enter your name"
                   />
-                {nameError? <div className="errorshow">{nameError}</div>: null} 
+                {nameError? <div className="errorshow">{nameError}</div>: null}
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control
+                    required
                     type="email"
                     name="email"
                     value={AllData.email}
                     onChange={(e) => HandelChange(e)}
                     placeholder="name@example.com"
                   />
-                  {emailError? <div className="errorshow">{emailError}</div>: null} 
+                  {emailError? <div className="errorshow">{emailError}</div>: null}
                 </Form.Group>
               </Col>
             </Row>
@@ -99,26 +104,28 @@ const Add = ({ handleShow }) => {
                 <Form.Group className="mb-3">
                   <Form.Label>Phone no</Form.Label>
                   <Form.Control
+                    required
                     type="number"
                     name="phone"
                     value={AllData.phone}
                     onChange={(e) => HandelChange(e)}
                     placeholder="Enter your phone no."
                   />
-                  {phoneError? <div className="errorshow">{phoneError}</div>: null} 
+                  {phoneError? <div className="errorshow">{phoneError}</div>: null}
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label>country</Form.Label>
                   <Form.Control
+                    required
                     type="text"
                     name="country"
                     value={AllData.country}
                     onChange={(e) => HandelChange(e)}
                     placeholder="Enter Your Country Name"
                   />
-                {countryError? <div className="errorshow">{countryError}</div>: null} 
+                {countryError? <div className="errorshow">{countryError}</div>: null}
                 </Form.Group>
               </Col>
             </Row>

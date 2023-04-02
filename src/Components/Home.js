@@ -6,6 +6,7 @@ import Add from "./Add";
 import EditData from "./Edit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 const Home = () => {
  const handleShow= true;
@@ -17,8 +18,11 @@ const Home = () => {
     dispatch(GetApiAction());
   }, [dispatch]);
   const DeleteItems = (id)=>{
-    dispatch(DeleteApiAction(id))
-    dispatch(GetApiAction());
+  alert("Want to delete?");
+  toast.error("your data Deleteed successfully!");
+  dispatch(DeleteApiAction(id))
+  dispatch(GetApiAction());
+    
   }
   return (
     <div>
