@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {GetApiAction,DeleteApiAction} from "../Redux/Action/Action";
 import { useDispatch, useSelector } from "react-redux";
 import Table from "react-bootstrap/Table";
@@ -7,6 +7,7 @@ import EditData from "./Edit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
+import Pagination from "../pagination/pagination";
 
 const Home = () => {
  const handleShow= true;
@@ -24,6 +25,13 @@ const Home = () => {
   dispatch(GetApiAction());
     
   }
+  const [currentPage, setCurrentPage] = useState(1);
+  let PageSize = 3;
+  const currentTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return responseData.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage]);
   return (
     <div>
       <h1>React Redux Crud Operation | React Operation</h1>
@@ -41,7 +49,7 @@ const Home = () => {
           </tr>
         </thead>
         <tbody>
-        {responseData?  responseData.map((items, index) => {
+        {currentTableData?  currentTableData.map((items, index) => {
             return (
               <tr key={index}>
                 <td>{items.id}</td>
@@ -56,6 +64,13 @@ const Home = () => {
           :null}
         </tbody>
       </Table>
+      <Pagination
+        className="pagination-bar"
+        currentPage={currentPage}
+        totalCount={responseData.length}
+        pageSize={PageSize}
+        onPageChange={page => setCurrentPage(page)}
+      />
     </div>
   );
 };
