@@ -77,7 +77,7 @@ setCurrentPage(1)
       </Table>
       <div className="m-4 mb-0">
         {(currentPage - 1) * PageSize + 1} to{" "}
-        {(currentPage - 1) * PageSize+PageSize} of {responseData.length}
+        {(currentPage - 1) * PageSize+recodrs.length} of {responseData.length}
       </div>
       <div className="example-header">
         Page Size:
