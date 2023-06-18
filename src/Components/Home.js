@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GetApiAction, DeleteApiAction } from "../Redux/Action/Action";
 import { useDispatch, useSelector } from "react-redux";
 import Table from "react-bootstrap/Table";
@@ -27,13 +27,12 @@ const Home = () => {
   const [val, setVal]= useState(2);
   const data=[2,3,4,5,6];
   let PageSize = val;
-
   const firstPageIndex = (currentPage - 1) * PageSize;
   const lastPageIndex = firstPageIndex + PageSize;
   const  recodrs = responseData.slice(firstPageIndex,lastPageIndex);
 
 const HandalChange = (e)=>{
-setVal(e.target.value);
+setVal(parseInt(e.target.value));
 setCurrentPage(1)
 }
   return (
@@ -78,14 +77,14 @@ setCurrentPage(1)
       </Table>
       <div className="m-4 mb-0">
         {(currentPage - 1) * PageSize + 1} to{" "}
-        {(currentPage - 1) * PageSize + PageSize} of {responseData.length}
+        {(currentPage - 1) * PageSize+PageSize} of {responseData.length}
       </div>
       <div className="example-header">
         Page Size:
         <select id="page-size" value={val} onChange={e=>HandalChange(e)}>
-          {data.map((item) => {
+          {data.map((item,index) => {
             return (
-              <option value={item} >
+              <option value={item} key={index}>
                 {item}
               </option>
             );
