@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import {GetApiAction,DeleteApiAction} from "../Redux/Action/Action";
+import { GetApiAction, DeleteApiAction } from "../Redux/Action/Action";
 import { useDispatch, useSelector } from "react-redux";
 import Table from "react-bootstrap/Table";
 import Add from "./Add";
@@ -10,32 +10,40 @@ import { toast } from "react-toastify";
 import Pagination from "../pagination/pagination";
 
 const Home = () => {
- const handleShow= true;
+  const handleShow = true;
   const dispatch = useDispatch();
   const responseData = useSelector((state) => state.reducer.details);
-//   console.log(responseData);
+  //   console.log(responseData);
 
   useEffect(() => {
     dispatch(GetApiAction());
   }, [dispatch]);
-  const DeleteItems = (id)=>{
-  alert("Want to delete?");
-  toast.error("your data Deleteed successfully!");
-  dispatch(DeleteApiAction(id))
-  dispatch(GetApiAction());
-    
-  }
+  const DeleteItems = (id) => {
+    alert("Want to delete?");
+    toast.error("your data Deleteed successfully!");
+    dispatch(DeleteApiAction(id));
+    dispatch(GetApiAction());
+  };
   const [currentPage, setCurrentPage] = useState(1);
-  let PageSize = 3;
-  const currentTableData = useMemo(() => {
-    const firstPageIndex = (currentPage - 1) * PageSize;
-    const lastPageIndex = firstPageIndex + PageSize;
-    return responseData.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage]);
+  const [val, setVal]= useState(2);
+  const data=[2,3,4,5,6];
+  let PageSize = val;
+
+  const firstPageIndex = (currentPage - 1) * PageSize;
+  const lastPageIndex = firstPageIndex + PageSize;
+  const  recodrs = responseData.slice(firstPageIndex,lastPageIndex);
+  // const currentTableData = useMemo(() => {
+    
+  //   return responseData.slice(firstPageIndex, lastPageIndex);
+  // }, [currentPage]);
+const HandalChange = (e)=>{
+setVal(e.target.value);
+setCurrentPage(1)
+}
   return (
     <div>
       <h1>React Redux Crud Operation | React Operation</h1>
-      <Add handleShow={handleShow}/>
+      <Add handleShow={handleShow} />
       <Table striped bordered hover variant="light">
         <thead>
           <tr>
@@ -45,31 +53,56 @@ const Home = () => {
             <th>Phone</th>
             <th>Country</th>
             <th>Action</th>
-
           </tr>
         </thead>
         <tbody>
-        {currentTableData?  currentTableData.map((items, index) => {
-            return (
-              <tr key={index}>
-                <td>{items.id}</td>
-                <td>{items.name}</td>
-                <td>{items.email}</td>
-                <td>{items.phone}</td>
-                <td>{items.country}</td>
-                <td><EditData handleShow={handleShow} id={items.id}/><span className="trashcan" onClick={()=>DeleteItems(items.id)}><FontAwesomeIcon icon={faTrashCan}/></span></td>
-              </tr>
-            );
-          })
-          :null}
+          {recodrs
+            ? recodrs.map((items, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{items.id}</td>
+                    <td>{items.name}</td>
+                    <td>{items.email}</td>
+                    <td>{items.phone}</td>
+                    <td>{items.country}</td>
+                    <td>
+                      <EditData handleShow={handleShow} id={items.id} />
+                      <span
+                        className="trashcan"
+                        onClick={() => DeleteItems(items.id)}
+                      >
+                        <FontAwesomeIcon icon={faTrashCan} />
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })
+            : null}
         </tbody>
       </Table>
+      <div className="m-4 mb-0">
+        {(currentPage - 1) * PageSize + 1} to{" "}
+        {(currentPage - 1) * PageSize + PageSize} of {responseData.length}
+      </div>
+      <div className="example-header">
+        Page Size:
+        <select id="page-size" value={val} onChange={e=>HandalChange(e)}>
+          {data.map((item) => {
+            return (
+              <option value={item} >
+                {item}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+
       <Pagination
         className="pagination-bar"
         currentPage={currentPage}
         totalCount={responseData.length}
         pageSize={PageSize}
-        onPageChange={page => setCurrentPage(page)}
+        onPageChange={(page) => setCurrentPage(page)}
       />
     </div>
   );
