@@ -13,7 +13,6 @@ const Home = () => {
   const handleShow = true;
   const dispatch = useDispatch();
   const responseData = useSelector((state) => state.reducer.details);
-  //   console.log(responseData);
 
   useEffect(() => {
     dispatch(GetApiAction());
@@ -32,10 +31,7 @@ const Home = () => {
   const firstPageIndex = (currentPage - 1) * PageSize;
   const lastPageIndex = firstPageIndex + PageSize;
   const  recodrs = responseData.slice(firstPageIndex,lastPageIndex);
-  // const currentTableData = useMemo(() => {
-    
-  //   return responseData.slice(firstPageIndex, lastPageIndex);
-  // }, [currentPage]);
+
 const HandalChange = (e)=>{
 setVal(e.target.value);
 setCurrentPage(1)
